@@ -5,17 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chip Fabrication Cost Calculator</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-    .grid { display: grid; gap: 1rem; grid-template-columns: 320px 1fr; }
-    .panel { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
-    label { display: block; font-size: .9rem; margin-top: .5rem; }
-    input, select, button { width: 100%; padding: .45rem; margin-top: .2rem; }
-    #result { white-space: pre-wrap; background: #f8f8f8; padding: .75rem; border-radius: 6px; }
-    canvas { width: 100%; height: auto; border: 1px solid #ccc; border-radius: 8px; }
+    :root {
+      --bg: #0b1020;
+      --panel: #121a30;
+      --panel-2: #10182c;
+      --text: #e8eefc;
+      --muted: #9fb0d9;
+      --accent: #67b4ff;
+      --good: #57d08a;
+      --bad: #ff8d8d;
+      --border: #2a3b66;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: radial-gradient(circle at top, #18264d, var(--bg) 55%);
+      color: var(--text);
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 { margin: 0 0 1rem; font-size: 1.9rem; }
+    .subtitle { color: var(--muted); margin-bottom: 1rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: 340px 1fr; }
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      background: linear-gradient(145deg, var(--panel), var(--panel-2));
+      box-shadow: var(--shadow);
+    }
+    label { display: block; font-size: .9rem; margin-top: .6rem; color: #c9d6f2; }
+    input, select, button {
+      width: 100%;
+      padding: .6rem;
+      margin-top: .3rem;
+      border-radius: 10px;
+      border: 1px solid #3a4f81;
+      background: #0f1730;
+      color: var(--text);
+    }
+    button {
+      margin-top: .9rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2b87ff, #61b4ff);
+      border: none;
+      font-weight: 700;
+    }
+    button:hover { filter: brightness(1.06); }
+
+    #result {
+      margin-top: .7rem;
+      display: grid;
+      gap: .6rem;
+    }
+    .metric {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 10px;
+      padding: .55rem .7rem;
+    }
+    .metric .label { font-size: .8rem; color: var(--muted); }
+    .metric .value { font-size: 1.05rem; font-weight: 700; margin-top: .2rem; }
+
+    .badge {
+      display: inline-block;
+      padding: .2rem .55rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-left: .4rem;
+    }
+    .badge.good { background: rgba(87, 208, 138, .2); color: #88e8af; }
+    .badge.bad { background: rgba(255, 141, 141, .2); color: #ffb5b5; }
+
+    canvas { width: 100%; height: auto; border: 1px solid #344b80; border-radius: 12px; background: #0a1228; }
+    .hint { color: var(--muted); font-size: .86rem; margin-top: .4rem; }
   </style>
 </head>
 <body>
-  <h1>Chip Fabrication Cost Calculator</h1>
+  <h1>⚙️ Chip Fabrication Cost Calculator</h1>
+  <div class="subtitle">Fast DPW + yield estimate with live wafer pass/fail simulation.</div>
   <div class="grid">
     <section class="panel">
       <h2>Inputs</h2>
@@ -29,7 +101,7 @@
           <option value="bose">Bose-Einstein</option>
         </select>
       </label>
-      <button id="calcBtn">Calculate</button>
+      <button id="calcBtn">🚀 Calculate</button>
       <h3>Output</h3>
       <div id="result">Run a calculation.</div>
     </section>
@@ -37,6 +109,7 @@
     <section class="panel">
       <h2>Interactive Wafer Visualization</h2>
       <canvas id="wafer" width="700" height="700"></canvas>
+      <p class="hint">Green = good dies, red = failed dies based on calculated yield probability.</p>
     </section>
   </div>
 
