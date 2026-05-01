@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chip Fabrication Cost Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: 320px 1fr; }
+    .panel { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
+    label { display: block; font-size: .9rem; margin-top: .5rem; }
+    input, select, button { width: 100%; padding: .45rem; margin-top: .2rem; }
+    #result { white-space: pre-wrap; background: #f8f8f8; padding: .75rem; border-radius: 6px; }
+    canvas { width: 100%; height: auto; border: 1px solid #ccc; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Chip Fabrication Cost Calculator</h1>
+  <div class="grid">
+    <section class="panel">
+      <h2>Inputs</h2>
+      <label>Wafer Diameter (mm)<input id="waferDiameter" value="300" type="number"></label>
+      <label>Die Area (mm²)<input id="dieArea" value="120" type="number"></label>
+      <label>Defect Density (defects/cm²)<input id="defectDensity" value="0.2" step="0.01" type="number"></label>
+      <label>Wafer Cost (USD)<input id="waferCost" value="17000" type="number"></label>
+      <label>Yield Model
+        <select id="yieldModel">
+          <option value="murphy">Murphy</option>
+          <option value="bose">Bose-Einstein</option>
+        </select>
+      </label>
+      <button id="calcBtn">Calculate</button>
+      <h3>Output</h3>
+      <div id="result">Run a calculation.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Interactive Wafer Visualization</h2>
+      <canvas id="wafer" width="700" height="700"></canvas>
+    </section>
+  </div>
+
+<script src="./main.js"></script>
+</body>
+</html>
